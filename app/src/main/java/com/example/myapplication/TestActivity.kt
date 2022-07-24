@@ -96,6 +96,11 @@ class TestActivity : AppCompatActivity() {
         vp.setPageTransformer(Ptransformer(tv3))
         vp.currentItem = 2
         vp.offscreenPageLimit = 3 //设置缓存的页面数， 当一屏显示多个page需要更改
+        val rv = vp.getChildAt(0) as RecyclerView
+        val padding =  ScreenUtil.dp2px(this,30.toFloat())
+        rv.setPadding(padding,0,padding,0)
+        rv.addItemDecoration(SpaceItemDecoratioen(10))
+        rv.clipToPadding =false
         Log.d("AA","initView over")
     }
 
