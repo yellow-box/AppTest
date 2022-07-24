@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 
 import android.view.ViewGroup
+import android.view.animation.ScaleAnimation
 
 import android.widget.TextView
 
@@ -110,7 +111,26 @@ class TestActivity : AppCompatActivity() {
 
     class Ptransformer(val tv3:TextView) : ViewPager2.PageTransformer {
         override fun transformPage(page: View, position: Float) {
+            val min_scale = 0.75
             tv3.text = "transformPage,position =$position"
+            val pageWith = page.width
+            // -1 代表在屏幕左侧以外
+            if(position < -1 ){
+                page.alpha = 0f
+            } else if(position < 0){
+                page.alpha = 1f
+                page.translationX = 0f
+                page.scaleX = 1f
+                page.scaleY = 1f
+            } else if(position <= 1){
+                page.alpha =  1- position
+                page.translationX = pageWith * (-position)
+                val scaleFator = (min_scale + (1 -min_scale) * (1- Math.abs(position))).toFloat()
+                page.scaleX = scaleFator
+                page.scaleY = scaleFator
+            } else {
+                page.alpha = 0f
+            }
         }
 
     }
